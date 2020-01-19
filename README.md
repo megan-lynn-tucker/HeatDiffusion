@@ -23,4 +23,4 @@ Note that **Δ** represents the change in a variable, **k** is thermal conductiv
 **c** is the specific heat capacity of material, **u** is the object, and **x** is the location on u.
 
 ## Class
-CS 161: Introduction to Computer Scienc
+CS 161: Introduction to Computer Science
