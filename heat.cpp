@@ -1,5 +1,5 @@
 /*********************************************************************
- ** Program filename: heat 
+ ** Program filename: heat.cpp
  ** Author: Megan Lynn Tucker
  ** Date: 03/17/2019
  ** Description: calculates the heat diffusion across a wire (1d) or a plate (2d);
@@ -18,30 +18,50 @@ using namespace std;
 
 
 bool verify_integers(string, bool);
+
 bool verify_enters(string, bool);
+
 int check_integers();
+
 int check_1_or_2();
+
 bool verify_floats(string, bool);
+
 float check_floats();
+
 float calculate_delta(float, int);
 
+
 float calculate_1d_stability(float, float, float, float);
+
 float* create_1d_array(int, float, float, float);
+
 void print_1d_array(float*, int);
+
 void copy_1d_array(float*, float*, int);
+
 void calculate_1d_u(int, int, float, float, float, float);
+
 void one_dimension();
 
+
 float calculate_2d_stability(float, float, float, float, float);
+
 float** create_2d_array(int, float, float, float);
+
 void print_2d_array(float**, int);
+
 void copy_2d_array(float**, float**, int);
+
 void delete_2d_array(float**, int);
+
 void calculate_2d_u(int, int, float, float, float, float, float, float, float);
+
 void two_dimensions();
 
 
-int main(){}
+int main()
+{
    int again; 
 
    do{
@@ -51,16 +71,19 @@ int main(){}
       cout << "1D or 2D: ";
       dimension = check_1_or_2();
 
-      if(dimension == 1){
-	      one_dimension();
+      if(dimension == 1)
+      {
+	 one_dimension();
       }
 
-      if(dimension == 2){
-	      two_dimensions();
+      if(dimension == 2)
+      {
+	 two_dimensions();
       }
 
       cout << "Enter 1 to calculate another temperature: ";
       again = check_integers();
+
    }while(again == 1);
 
    return 0;
@@ -75,14 +98,20 @@ int main(){}
  ** Pre-Conditions: input is a string 
  ** Post-Conditions: input was a string consisting only of the numbers 1 through 9
  *********************************************************************/ 
-bool verify_integers (string s, bool error){
-   for(int i = 0; i < s.size(); i++){
-      if(!(s.at(i) >= '0' && s.at(i) <= '9')){
-	      error = true;
+bool verify_integers (string s, bool error)
+{
+   for(int i = 0; i < s.size(); i++)
+   {
+      if(!(s.at(i) >= '0' && s.at(i) <= '9'))
+      {
+	 error = true;
       }
    }
    return error;
 }
+
+
+
 
 /*********************************************************************
  ** Function: verify_enters
@@ -92,12 +121,17 @@ bool verify_integers (string s, bool error){
  ** Pre-Conditions: the input is a string
  ** Post-Conditions: the input is a string that did not just consist of enters
  *********************************************************************/ 
-bool verify_enters(string s, bool error){
-   if(s.length() == 0){
+bool verify_enters(string s, bool error)
+{
+   if(s.length() == 0)
+   {
       error = true;
    } 
    return error;
 }
+
+
+
 
 /*********************************************************************
  ** Function: check_integers
@@ -107,11 +141,13 @@ bool verify_enters(string s, bool error){
  ** Pre-Conditions: the input is a string
  ** Post-Conditions: the input is a string of integers numbered 1 to 9
  *********************************************************************/ 
-int check_integers(){
+int check_integers()
+{
    string s;
    bool error; 
 
-   do{ 
+   do
+   {  
       getline(cin,s);
 
       // relies on short circuting to determine if the do while runs again
@@ -121,14 +157,20 @@ int check_integers(){
       error = error || verify_integers(s, error);
       error = error || verify_enters(s, error);
 
-      if (error == true){
-	      cout << "That is not a valid input. Try again." << endl;
+      if (error == true)
+      {
+	 cout << "That is not a valid input. Try again." << endl;
       }
+
    } while (error == true);
 
    int n = atoi(s.c_str());
+
    return n;
 }
+
+
+
 
 /*********************************************************************
  ** Function: check_1_or_2
@@ -138,22 +180,29 @@ int check_integers(){
  ** Pre-Conditions: the input is a string that is verified by the function check integers
  ** Post-Conditions: the integer is either 1 or 2
  *********************************************************************/ 
-int check_1_or_2(){
+int check_1_or_2()
+{
    bool error; 
    int number;
 
-   do{
+   do
+   {
       error = false;
       number = check_integers();
 
-      if(number < 1 || number > 2){
-	      cout << "That is not a valid input. Try again." << endl;
-	      error = true;
+      if(number < 1 || number > 2)
+      {
+	 cout << "That is not a valid input. Try again." << endl;
+	 error = true;
       }
+
    } while (error == true);
 
    return number;
 }
+
+
+
 
 /*********************************************************************
  ** Function: verify_floats
@@ -163,22 +212,31 @@ int check_1_or_2(){
  ** Pre-Conditions: the input is a string
  ** Post-Conditions: the string consists of the numbers 1 to 9 and at most one .
  *********************************************************************/ 
-bool verify_floats (string s, bool error){
+bool verify_floats (string s, bool error)
+{
    int number_of_decimals = 0;
 
-   for(int i = 0; i < s.size(); i++){
-      if((s.at(i) < '0' || s.at(i) > '9') && s.at(i) != '.'){
-	      return true;
+   for(int i = 0; i < s.size(); i++)
+   {
+      if((s.at(i) < '0' || s.at(i) > '9') && s.at(i) != '.')
+      {
+	 return true;
       }
-      if(s.at(i) == '.'){
-	      number_of_decimals++;
+
+      if(s.at(i) == '.')
+      {
+	 number_of_decimals++;
       }
-      if(!(number_of_decimals == 1 || number_of_decimals == 0)){
-	      return true;
+
+      if(!(number_of_decimals == 1 || number_of_decimals == 0))
+      {
+	 return true;
       }
    }
    return false;
 }
+
+
 
 /*********************************************************************
  ** Function: check_floats
@@ -188,25 +246,32 @@ bool verify_floats (string s, bool error){
  ** Pre-Conditions: the input is a string 
  ** Post-Conditions: the string consists of numbers 1 to 9 and at most one .
  *********************************************************************/ 
-float check_floats(){
+float check_floats()
+{
    string s;
    bool error; 
 
-   do   {
+   do
+   {
       getline(cin,s);
 
       error = false;
       error = error || verify_floats(s, error);
       error = error || verify_enters(s, error);
 
-      if (error == true)      {
-	      cout << "That is not a valid input. Try again." << endl;
+      if (error == true)
+      {
+	 cout << "That is not a valid input. Try again." << endl;
       }
+
    } while (error == true);
 
    float f = atof(s.c_str());
+
    return f;
 }
+
+
 
 /*********************************************************************
  ** Function: calculate_delta
@@ -216,13 +281,16 @@ float check_floats(){
  ** Pre-Conditions: the inputs are one float and one int
  ** Post-Conditions: the delta is the length divided by the number of segments
  *********************************************************************/ 
-float calculate_delta(float length, int segments){
+float calculate_delta(float length, int segments)
+{
    float delta;
    delta = length / segments;
    return delta;
 
    cout << "delta" << delta << endl;
 }
+
+
 
 /*********************************************************************
  ** Function: calculate_1d_stability
@@ -232,7 +300,8 @@ float calculate_delta(float length, int segments){
  ** Pre-Conditions: valid inputs for parameters
  ** Post-Conditions: none
  *********************************************************************/ 
-float calculate_1d_stability(float k, float delta_t, float delta_x, float c, float rho){
+float calculate_1d_stability(float k, float delta_t, float delta_x, float c, float rho)
+{
    float numerator;
    float denominator;
    float stability;
@@ -242,6 +311,9 @@ float calculate_1d_stability(float k, float delta_t, float delta_x, float c, flo
    return stability;
 }
 
+
+
+
 /*********************************************************************
  ** Function: create_1d_array
  ** Description: creates a 1d array with a number of elements equal to segments
@@ -250,22 +322,30 @@ float calculate_1d_stability(float k, float delta_t, float delta_x, float c, flo
  ** Pre-Conditions: the inputs yield a valid stability
  ** Post-Conditions: space is allocated to fit an array of size segments
  *********************************************************************/ 
-float* create_1d_array(int segments, float initial_temp, float left_temp, float right_temp){
+float* create_1d_array(int segments, float initial_temp, float left_temp, float right_temp)
+{
    float *wire = new float[segments];
   
-   for(int i = 0; i < segments; i++){
-      if(i == 0){
-	      wire[i] = left_temp;
+   for(int i = 0; i < segments; i++)
+   {
+      if(i == 0)
+      {
+	 wire[i] = left_temp;
       }
-      else if(i == segments - 1){
-	      wire[i] = right_temp;
+
+      else if(i == segments - 1)
+      {
+	 wire[i] = right_temp;
       }
-      else {
-	      wire[i] = initial_temp;
+
+      else 
+      {
+	 wire[i] = initial_temp;
       }
    }
    return wire;
 }
+
 
 /*********************************************************************
  ** Function: print_1d_array
@@ -275,12 +355,17 @@ float* create_1d_array(int segments, float initial_temp, float left_temp, float 
  ** Pre-Conditions: none
  ** Post-Conditions: none
  *********************************************************************/ 
-void print_1d_array(float *array, int rows){
-   for(int i = 0; i < rows; i++){
+void print_1d_array(float *array, int rows)
+{
+   for(int i = 0; i < rows; i++)
+   {
       cout << array[i] << " ";
    }
    cout << endl;
 }
+
+
+
 
 /*********************************************************************
  ** Function: copy_1d_array
@@ -290,11 +375,17 @@ void print_1d_array(float *array, int rows){
  ** Pre-Conditions: none
  ** Post-Conditions: none
  *********************************************************************/ 
-void copy_1d_array(float *newarray, float *oldarray, int rows){
-   for(int i = 0; i < rows; i++)   {
+void copy_1d_array(float *newarray, float *oldarray, int rows)
+{
+   for(int i = 0; i < rows; i++)
+   {
       oldarray[i] = newarray[i]; 
    }
 }
+
+
+
+
 
 /*********************************************************************
  ** Function: calculate_1d_u
@@ -304,7 +395,8 @@ void copy_1d_array(float *newarray, float *oldarray, int rows){
  ** Pre-Conditions: stability is valid
  ** Post-Conditions: none
  *********************************************************************/ 
-void calculate_1d_u(int wire_segments, float initial_temp, float left_temp, float right_temp, int time_segments, float stability){
+void calculate_1d_u(int wire_segments, float initial_temp, float left_temp, float right_temp, int time_segments, float stability)
+{
    float *newwire, *oldwire, A, B, C, D;
    // calculate the new values from the old value
    newwire = create_1d_array(wire_segments, initial_temp, left_temp, right_temp);
@@ -312,14 +404,17 @@ void calculate_1d_u(int wire_segments, float initial_temp, float left_temp, floa
    
    print_1d_array(oldwire, wire_segments);
    
-   for(int i = 1; i < time_segments; i++){ // calculate the temperature for each time segment  
-      for(int j = 1; j < wire_segments - 1; j++){
-         // use floats here instead of newwire[j] to ensure no errors
-         A = oldwire[j + 1];
-         B = oldwire[j];
-         C = oldwire[j - 1];
-         D = (stability * (A - (2 * B) + C)) + B; // formula for the next temperature
-         newwire[j] = D;
+   for(int i = 1; i < time_segments; i++) // calculate the temperature for each time segment
+   {  
+      for(int j = 1; j < wire_segments - 1; j++)
+      {
+	 // use floats here instead of newwire[j] to ensure no errors
+	 A = oldwire[j + 1];
+	 B = oldwire[j];
+	 C = oldwire[j - 1];
+	 D = (stability * (A - (2 * B) + C)) + B; // formula for the next temperature
+
+	 newwire[j] = D;
       }      
       print_1d_array(newwire, wire_segments);
       copy_1d_array(newwire, oldwire, wire_segments);
@@ -327,6 +422,9 @@ void calculate_1d_u(int wire_segments, float initial_temp, float left_temp, floa
    delete [] newwire;
    delete [] oldwire;
 }
+
+
+
 
 /*********************************************************************
  ** Function: one_dimension()
@@ -336,11 +434,13 @@ void calculate_1d_u(int wire_segments, float initial_temp, float left_temp, floa
  ** Pre-Conditions: none
  ** Post-Conditions: none
  *********************************************************************/ 
-void one_dimension(){
+void one_dimension()
+{
    float rho, k, c, wire_length, time_length, initial_temp, left_temp, right_temp, delta_x, delta_t, stability;
    int wire_segments, time_segments;
 
-   do{
+   do
+   {
       cout << "k: ";
       k = check_floats();
      
@@ -375,27 +475,37 @@ void one_dimension(){
       delta_t = calculate_delta(time_length, time_segments);
       stability = calculate_1d_stability(k, delta_t, delta_x, c, rho);
 
-      if(stability >= 0.5){
-	      cout << "Unstable solution. Input new values:" << endl;
+      if(stability >= 0.5)
+      {
+	 cout << "Unstable solution. Input new values:" << endl;
       }
+
    }while(stability >= 0.5);
 
    calculate_1d_u(wire_segments, initial_temp, left_temp, right_temp, time_segments, stability);   
 }
 
+
+
 /*********************************************************************
  ** Function: calculate_2d_stability
- ** Description: calculate the stability for the heat equatoin in second dimension 
+ ** Description: calculate the stability for the heat equation in second dimension 
  ** Parameters: float k, float delta_xy, float c, float rho
  ** Returns: float stability
  ** Pre-Conditions: the inputs are valid
  ** Post-Conditions: none
  *********************************************************************/ 
-float calculate_2d_stability(float k, float delta_xy, float c, float rho){
+float calculate_2d_stability(float k, float delta_xy, float c, float rho)
+{
    float stability;
+
    stability = (delta_xy * delta_xy * rho * c) / (4 * k);
+
    return stability;
 }
+
+
+
 
 /*********************************************************************
  ** Function: create_2d_array
@@ -405,27 +515,39 @@ float calculate_2d_stability(float k, float delta_xy, float c, float rho){
  ** Pre-Conditions: the inputs yield a valid stability
  ** Post-Conditions: space is allocated to fit an array of size segments
  *********************************************************************/ 
-float** create_2d_array(int segments, float initial_temp, float lr_temp, float tb_temp){
+float** create_2d_array(int segments, float initial_temp, float lr_temp, float tb_temp)
+{
    // number of rows = number of columns = segments
    float **plate = new float* [segments]; // first create heap memory for row pointers
   
-   for(int i = 0; i < segments; i++){
+   for(int i = 0; i < segments; i++) 
+   {
       plate[i] = new float[segments]; // for each row create memory for columns
-      for(int j = 0; j < segments; j++){
-         if(i == 0 || i == segments - 1){
-	         plate[i][j] = lr_temp;
-	      }
+
+      for(int j = 0; j < segments; j++)
+      {
+         if(i == 0 || i == segments - 1)
+         {
+	    plate[i][j] = lr_temp;
+	 }
+
          // because the corner values don't matter, they will default to the top and bottom values of temperature	 
-         else if(j == 0 || j == segments - 1){
-            plate[i][j] = tb_temp;
-         }
-         else{
-            plate[i][j] = initial_temp;
-         }
+	 else if(j == 0 || j == segments - 1)
+	 {
+	    plate[i][j] = tb_temp;
+	 }
+	 
+	 else
+	 {
+	    plate[i][j] = initial_temp;
+	 }
       }
    }
    return plate;
 }
+
+
+
 
 /*********************************************************************
  ** Function: print_2d_array
@@ -435,15 +557,20 @@ float** create_2d_array(int segments, float initial_temp, float lr_temp, float t
  ** Pre-Conditions: none
  ** Post-Conditions: none
  *********************************************************************/ 
-void print_2d_array(float **array, int rows){
-   for(int i = 0; i < rows; i++){
-      for(int j = 0; j < rows; j++){
-	      cout << array[i][j] << " ";
+void print_2d_array(float **array, int rows)
+{
+   for(int i = 0; i < rows; i++)
+   {
+      for(int j = 0; j < rows; j++)
+      {
+	 cout << array[i][j] << " ";
       }
       cout << endl;
    }
    cout << endl;
 }
+
+
 
 /*********************************************************************
  ** Function: print_1d_array
@@ -453,13 +580,20 @@ void print_2d_array(float **array, int rows){
  ** Pre-Conditions: none
  ** Post-Conditions: none
  *********************************************************************/ 
-void copy_2d_array(float **newarray, float **oldarray, int rows){
-   for(int i = 0; i < rows; i++){
-      for(int j = 0; j < rows; j++){
-	      oldarray[i][j] = newarray[i][j]; 
+void copy_2d_array(float **newarray, float **oldarray, int rows)
+{
+   for(int i = 0; i < rows; i++)
+   {
+      for(int j = 0; j < rows; j++)
+      {
+	 oldarray[i][j] = newarray[i][j]; 
       }
    }
 }
+
+
+
+
 
 /*********************************************************************
  ** Function: calculate_2d_u
@@ -469,13 +603,20 @@ void copy_2d_array(float **newarray, float **oldarray, int rows){
  ** Pre-Conditions: none
  ** Post-Conditions: none
  *********************************************************************/ 
-void delete_2d_array(float **array, int rows){
+void delete_2d_array(float **array, int rows)
+{
    // for each pointer, delete the array where the pointer is going to
-   for(int i = 0; i < rows; i++){
+   for(int i = 0; i < rows; i++)
+   {
       delete [] array[i];
    }
+
    delete [] array; // delete the array that the double pointer is pointing to
 }
+
+
+
+
 
 /*********************************************************************
  ** Function: calculate_2d_u
@@ -486,34 +627,42 @@ void delete_2d_array(float **array, int rows){
  ** Pre-Conditions: stability is valid
  ** Post-Conditions: none
  *********************************************************************/ 
-void calculate_2d_u(int plate_segments, int time_segments, float initial_temp, float lr_temp, float tb_temp, float delta_xy, float delta_t, float k, float c, float rho){
+void calculate_2d_u(int plate_segments, int time_segments, float initial_temp, float lr_temp, float tb_temp, float delta_xy, float delta_t, float k, float c, float rho)
+{
    float **newplate, **oldplate, A, B, C, D, E, F, G, H;
    newplate = create_2d_array(plate_segments, initial_temp, lr_temp, tb_temp);
    oldplate = create_2d_array(plate_segments, initial_temp, lr_temp, tb_temp);
    
    print_2d_array(oldplate, plate_segments);
    
-   for(int i = 1; i < time_segments; i++){  
-      for(int j = 1; j < plate_segments - 1; j++){
-	      for(int k = 1; k < plate_segments - 1; k+){
-            A = oldplate[j + 1][k];
-            B = oldplate[j - 1][k];
-            C = oldplate[j][k + 1];
-            D = oldplate[j][k - 1];
-            E = oldplate[j][k];
-            
-            // full equation written out to avoid errors  
-            F = (((k * delta_t) / (c * rho)) * (((A - (2 * E) + B) / (delta_xy * delta_xy)) + ((C - (2 * E) + D) / (delta_xy * delta_xy)))) + E;
+   for(int i = 1; i < time_segments; i++)
+   {  
+      for(int j = 1; j < plate_segments - 1; j++)
+      {
+	 for(int k = 1; k < plate_segments - 1; k++)
+	 {
+	    A = oldplate[j + 1][k];
+	    B = oldplate[j - 1][k];
+	    C = oldplate[j][k + 1];
+	    D = oldplate[j][k - 1];
+	    E = oldplate[j][k];
+	    
+	    // full equation written out to avoid errors  
+	    F = (((k * delta_t) / (c * rho)) * (((A - (2 * E) + B) / (delta_xy * delta_xy)) + ((C - (2 * E) + D) / (delta_xy * delta_xy)))) + E;
 
-            newplate[j][k] = F;
-	         }
-         }      
+	    newplate[j][k] = F;
+	 }
+      }      
       print_2d_array(newplate, plate_segments);
       copy_2d_array(newplate, oldplate, plate_segments);
    }
    delete_2d_array(newplate, plate_segments);
    delete_2d_array(oldplate, plate_segments);
 }
+
+
+
+
 
 /*********************************************************************
  ** Function: two_dimensions
@@ -523,11 +672,13 @@ void calculate_2d_u(int plate_segments, int time_segments, float initial_temp, f
  ** Pre-Conditions: none
  ** Post-Conditions: none
  *********************************************************************/ 
-void two_dimensions(){
+void two_dimensions()
+{
    float k, rho, c, plate_size, time_length, initial_temp, lr_temp, tb_temp, delta_xy, delta_t, stability, a;
    int plate_segments, time_segments;
 
-   do{
+   do
+   {
       cout << "k: ";
       k = check_floats();
      
@@ -563,9 +714,12 @@ void two_dimensions(){
 
       stability = calculate_2d_stability(k, delta_xy, c, rho);
 
-      if(stability > delta_t){
-	      cout << "Unstable solution. Input new values:" << endl;
+      if(stability > delta_t)
+      {
+	 cout << "Unstable solution. Input new values:" << endl;
       }
+
    }while(stability > delta_t);
+
    calculate_2d_u(plate_segments, time_segments, initial_temp, lr_temp, tb_temp, delta_xy, delta_t, k, c, rho);
 }
